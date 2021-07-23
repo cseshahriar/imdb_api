@@ -1,0 +1,1 @@
+type of api: 1. privat 2. partner 3. public 
