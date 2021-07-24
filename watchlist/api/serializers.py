@@ -9,8 +9,8 @@ def name_length(value):
 class MovieSerializer(serializers.Serializer):
     """ Movie Serializer """
     id = serializers.IntegerField(read_only=True)
-    name = serializers.CharField(max_length=100, validators=[name_length])
-    description = serializers.CharField(max_length=200)
+    title = serializers.CharField(max_length=100, validators=[name_length])
+    storyline = serializers.CharField(max_length=200)
     active = serializers.BooleanField()
 
     def create(self, validated_data):
@@ -32,7 +32,7 @@ class MovieSerializer(serializers.Serializer):
         else:
             return data
 
-    # def validate_name(self, value):
+    # def validate_title(self, value):
     #     """ name min length validation """
     #     if len(value) < 2:
     #         raise serializers.ValidationError('Name is too short!')
@@ -47,23 +47,23 @@ class MovieModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = WatchList
         # fields = "__all__"
-        fields = ['id', 'name', 'description', 'len_name']
+        fields = ['id', 'title', 'storyline', 'len_name']
         # exclude = ['active']
 
     def get_len_name(self, object):
         """ method for len_name custom field """
-        return len(object.name)
+        return len(object.title)
 
     def validate(self, data):
         """ name and description validate """
-        if data['name'] == data['description']:
-            raise serializers.ValidationError('Name and Description should be different!')
+        if data['title'] == data['storyline']:
+            raise serializers.ValidationError('title and storyline should be different!')
         else:
             return data
 
-    def validate_name(self, value):
+    def validate_title(self, value):
         """ name min length validation """
         if len(value) < 2:
-            raise serializers.ValidationError('Name is too short!')
+            raise serializers.ValidationError('title is too short!')
         else:
             return value
