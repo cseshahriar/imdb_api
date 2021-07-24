@@ -10,7 +10,7 @@ from watchlist.api.serializers import MovieSerializer, MovieModelSerializer
 """ function base views """
 
 @api_view(['GET', 'POST'])
-def movie_list(request):
+def watch_list(request):
     """ movie list api """
     if request.method == 'GET':
         """ list """
@@ -29,7 +29,7 @@ def movie_list(request):
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
-def movie_details(request, pk):
+def watch_list_details(request, pk):
     """ Movie retrive, update, delete """
     try:
         watch_list = WatchList.objects.get(pk=pk)
@@ -56,7 +56,7 @@ def movie_details(request, pk):
 
 
 """ class base views  """
-class MovieListAPIView(APIView):
+class WatchListAPIView(APIView):
 
     def get(self, request):
         """ list """
@@ -72,7 +72,7 @@ class MovieListAPIView(APIView):
         else:
             return Response(serialize.errors)   
 
-class MovieDetalAPIView(APIView):
+class WatchListDetalAPIView(APIView):
 
     def get(self, request, pk):
         try:

@@ -1,15 +1,15 @@
 from django.urls import path
 from watchlist.api.views import (
-    movie_list, movie_details,
-    MovieListAPIView, MovieDetalAPIView
+    watch_list, watch_list_details,
+    WatchListAPIView, WatchListDetalAPIView
 )
 
 urlpatterns = [
     # fbv
-    path('v1/movies/', movie_list),
-    path('v1/movies/<int:pk>/', movie_details),
+    path('v1/watchlist/', watch_list),
+    path('v1/watchlist/<int:pk>/', watch_list_details),
 
     # APIView
-    path('v2/movies/', MovieListAPIView.as_view()),
-    path('v2/movies/<int:pk>/', MovieDetalAPIView.as_view()),
+    path('v2/watchlist/', WatchListAPIView.as_view()),
+    path('v2/watchlist/<int:pk>/', WatchListDetalAPIView.as_view()),
 ]
