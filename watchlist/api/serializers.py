@@ -42,11 +42,17 @@ class MovieSerializer(serializers.Serializer):
 
 """ Model serializers """
 class MovieModelSerializer(serializers.ModelSerializer):
+    len_name = serializers.SerializerMethodField()  # custom field 
+
     class Meta:
         model = Movie
         # fields = "__all__"
-        fields = ['id', 'name', 'description']
+        fields = ['id', 'name', 'description', 'len_name']
         # exclude = ['active']
+
+    def get_len_name(self, object):
+        """ method for len_name custom field """
+        return len(object.name)
 
     def validate(self, data):
         """ name and description validate """
