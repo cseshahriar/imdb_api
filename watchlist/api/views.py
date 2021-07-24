@@ -6,12 +6,23 @@ from watchlist.models import Movie
 from watchlist.api.serializers import MovieSerializer
 
 
-@api_view(['GET'])
+@api_view(['GET', 'POST'])
 def movie_list(request):
     """ movie list api """
-    movies = Movie.objects.all()
-    serialize = MovieSerializer(movies, many=True)
-    return Response(serialize.data)
+    if request.method == 'GET':
+        """ list """
+        movies = Movie.objects.all()
+        serialize = MovieSerializer(movies, many=True)
+        return Response(serialize.data)
+    
+    if request.method == 'POST':
+        """ create """
+        serialize = MovieSerializer(data=request.POST)
+        if serialize.is_valid():
+            serialize.save()
+            return Response(serialize.data)
+        else:
+            return Response(serialize.errors)
 
 
 @api_view(['GET'])
