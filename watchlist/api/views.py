@@ -31,7 +31,9 @@ def movie_details(request, pk):
     try:
         movie = Movie.objects.get(pk=pk)
     except Movie.DoesNotExist:
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(
+            {'error': 'Movie not found'}, status=status.HTTP_204_NO_CONTENT
+        )
 
     if request.method == 'GET':
         serialize = MovieSerializer(movie)
@@ -43,7 +45,7 @@ def movie_details(request, pk):
             serialize.save()
             return Response(serialize.data)
         else:
-            return Response(serialize.errors)
+            return Response(serialize.errors, status=status.HTTP_400_BAD_REQUEST)
 
     if request.method == 'DELETE':
         movie.delete()
