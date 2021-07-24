@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view
 
 from rest_framework.views import APIView
 
-from watchlist.models import Movie
+from watchlist.models import WatchList
 from watchlist.api.serializers import MovieSerializer, MovieModelSerializer
 
 """ function base views """
@@ -14,8 +14,8 @@ def movie_list(request):
     """ movie list api """
     if request.method == 'GET':
         """ list """
-        movies = Movie.objects.all()
-        serialize = MovieSerializer(movies, many=True)
+        object_list = WatchList.objects.all()
+        serialize = MovieSerializer(object_list, many=True)
         return Response(serialize.data)
     
     if request.method == 'POST':
@@ -32,18 +32,18 @@ def movie_list(request):
 def movie_details(request, pk):
     """ Movie retrive, update, delete """
     try:
-        movie = Movie.objects.get(pk=pk)
-    except Movie.DoesNotExist:
+        watch_list = WatchList.objects.get(pk=pk)
+    except WatchList.DoesNotExist:
         return Response(
             {'error': 'Movie not found'}, status=status.HTTP_204_NO_CONTENT
         )
 
     if request.method == 'GET':
-        serialize = MovieSerializer(movie)
+        serialize = MovieSerializer(watch_list)
         return Response(serialize.data)
     
     if request.method == 'PUT':
-        serialize = MovieSerializer(movie, data=request.data)
+        serialize = MovieSerializer(watch_list, data=request.data)
         if serialize.is_valid():
             serialize.save()
             return Response(serialize.data)
@@ -51,7 +51,7 @@ def movie_details(request, pk):
             return Response(serialize.errors, status=status.HTTP_400_BAD_REQUEST)
 
     if request.method == 'DELETE':
-        movie.delete()
+        watch_list.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
@@ -60,8 +60,8 @@ class MovieListAPIView(APIView):
 
     def get(self, request):
         """ list """
-        movies = Movie.objects.all()
-        serialize = MovieModelSerializer(movies, many=True)
+        watch_lists = WatchList.objects.all()
+        serialize = MovieModelSerializer(watch_lists, many=True)
         return Response(serialize.data)
 
     def post(self, request):
@@ -76,22 +76,22 @@ class MovieDetalAPIView(APIView):
 
     def get(self, request, pk):
         try:
-            movie = Movie.objects.get(pk=pk)
-        except Movie.DoesNotExist:
+            watch_list = WatchList.objects.get(pk=pk)
+        except WatchList.DoesNotExist:
             return Response(
                 {'error': 'Movie not found'}, status=status.HTTP_204_NO_CONTENT)
 
-        serialize = MovieModelSerializer(movie)
+        serialize = MovieModelSerializer(watch_list)
         return Response(serialize.data)
 
     def put(self, request, pk):
         try:
-            movie = Movie.objects.get(pk=pk)
-        except Movie.DoesNotExist:
+            watch_list = WatchList.objects.get(pk=pk)
+        except WatchList.DoesNotExist:
             return Response(
                 {'error': 'Movie not found'}, status=status.HTTP_204_NO_CONTENT)
 
-        serialize = MovieModelSerializer(movie, data=request.data)
+        serialize = MovieModelSerializer(watch_list, data=request.data)
         if serialize.is_valid():
             serialize.save()
             return Response(serialize.data)
@@ -100,10 +100,10 @@ class MovieDetalAPIView(APIView):
 
     def delete(self, request, pk):
         try:
-            movie = Movie.objects.get(pk=pk)
-        except Movie.DoesNotExist:
+            watch_list = WatchList.objects.get(pk=pk)
+        except WatchList.DoesNotExist:
             return Response(
                 {'error': 'Movie not found'}, status=status.HTTP_204_NO_CONTENT)
 
-        movie.delete()
+        watch_list.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

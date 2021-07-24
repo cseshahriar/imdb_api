@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from watchlist.models import Movie
+from watchlist.models import StreamPlatform, WatchList
 
 """ serializers """
 def name_length(value):
@@ -15,7 +15,7 @@ class MovieSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         """ create """
-        return Movie.objects.create(**validated_data)
+        return WatchList.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
         """ update """
@@ -45,7 +45,7 @@ class MovieModelSerializer(serializers.ModelSerializer):
     len_name = serializers.SerializerMethodField()  # custom field 
 
     class Meta:
-        model = Movie
+        model = WatchList
         # fields = "__all__"
         fields = ['id', 'name', 'description', 'len_name']
         # exclude = ['active']
