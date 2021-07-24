@@ -25,13 +25,26 @@ def movie_list(request):
             return Response(serialize.errors)
 
 
-@api_view(['GET'])
+@api_view(['GET', 'PUT', 'DELETE'])
 def movie_details(request, pk):
-    """ Movie details api """
+    """ Movie retrive, update, delete """
     try:
         movie = Movie.objects.get(pk=pk)
     except Movie.DoesNotExist:
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+    if request.method == 'GET':
+        serialize = MovieSerializer(movie)
+        return Response(serialize.data)
     
-    serialize = MovieSerializer(movie)
-    return Response(serialize.data)
+    if request.method == 'PUT':
+        serialize = MovieSerializer(movie, data=request.data)
+        if serialize.is_valid():
+            serialize.save()
+            return Response(serialize.data)
+        else:
+            return Response(serialize.errors)
+
+    if request.method == 'DELETE':
+        movie.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
