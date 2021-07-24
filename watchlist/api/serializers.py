@@ -1,10 +1,14 @@
 from rest_framework import serializers
 from watchlist.models import Movie
 
+def name_length(value):
+    if len(value) < 2:
+        raise serializers.ValidationError('Name is too short!')
+
 class MovieSerializer(serializers.Serializer):
     """ Movie Serializer """
     id = serializers.IntegerField(read_only=True)
-    name = serializers.CharField(max_length=100)
+    name = serializers.CharField(max_length=100, validators=[name_length])
     description = serializers.CharField(max_length=200)
     active = serializers.BooleanField()
 
@@ -27,9 +31,9 @@ class MovieSerializer(serializers.Serializer):
         else:
             return data
 
-    def validate_name(self, value):
-        """ name min length validation """
-        if len(value) < 2:
-            raise serializers.ValidationError('Name is too short!')
-        else:
-            return value
+    # def validate_name(self, value):
+    #     """ name min length validation """
+    #     if len(value) < 2:
+    #         raise serializers.ValidationError('Name is too short!')
+    #     else:
+    #         return value
