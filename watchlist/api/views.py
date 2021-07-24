@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 
 from watchlist.models import Movie
-from watchlist.api.serializers import MovieSerializer
+from watchlist.api.serializers import MovieSerializer, MovieModelSerializer
 
 """ function base views """
 
@@ -61,11 +61,11 @@ class MovieListAPIView(APIView):
     def get(self, request):
         """ list """
         movies = Movie.objects.all()
-        serialize = MovieSerializer(movies, many=True)
+        serialize = MovieModelSerializer(movies, many=True)
         return Response(serialize.data)
 
     def post(self, request):
-        serialize = MovieSerializer(data=request.data)
+        serialize = MovieModelSerializer(data=request.data)
         if serialize.is_valid():
             serialize.save()
             return Response(serialize.data)
@@ -81,7 +81,7 @@ class MovieDetalAPIView(APIView):
             return Response(
                 {'error': 'Movie not found'}, status=status.HTTP_204_NO_CONTENT)
 
-        serialize = MovieSerializer(movie)
+        serialize = MovieModelSerializer(movie)
         return Response(serialize.data)
 
     def put(self, request, pk):
@@ -91,7 +91,7 @@ class MovieDetalAPIView(APIView):
             return Response(
                 {'error': 'Movie not found'}, status=status.HTTP_204_NO_CONTENT)
 
-        serialize = MovieSerializer(movie, data=request.data)
+        serialize = MovieModelSerializer(movie, data=request.data)
         if serialize.is_valid():
             serialize.save()
             return Response(serialize.data)
