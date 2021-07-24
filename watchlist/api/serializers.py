@@ -1,6 +1,15 @@
 from rest_framework import serializers
 from watchlist.models import StreamPlatform, WatchList
 
+
+class StreamPlatformSerializer(serializers.ModelSerializer):
+    """ StreamPlatform Serializer """
+    
+    class Meta:
+        model = StreamPlatform
+        fields = "__all__"
+
+
 """ serializers """
 def name_length(value):
     if len(value) < 2:

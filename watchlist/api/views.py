@@ -4,8 +4,27 @@ from rest_framework.decorators import api_view
 
 from rest_framework.views import APIView
 
-from watchlist.models import WatchList
-from watchlist.api.serializers import MovieSerializer, MovieModelSerializer
+from watchlist.models import WatchList, StreamPlatform
+from watchlist.api.serializers import (
+    MovieSerializer, MovieModelSerializer, StreamPlatformSerializer)
+
+
+class StreamPlatformListAPIView(APIView):
+    """ StreamPlatform list and create api """
+
+    def get(self, request):
+        object_list = StreamPlatform.objects.all()
+        serialize = StreamPlatformSerializer(object_list, many=True)
+        return Response(serialize.data)
+
+    def post(self, request):
+        serialize = StreamPlatformSerializer(data=request.data)
+        if serialize.is_valid():
+            serialize.save()
+            return Response(serialize.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serialize.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 """ function base views """
 
