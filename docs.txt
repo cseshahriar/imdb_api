@@ -1,1 +1,8 @@
 type of api: 1. privat 2. partner 3. public 
+
+endpoints :
+http://127.0.0.1:8000/api/v2/watchlist
+http://127.0.0.1:8000/api/v2/watchlist/1
+
+http://127.0.0.1:8000/api/v2/stream/
+http://127.0.0.1:8000/api/v2/stream/1

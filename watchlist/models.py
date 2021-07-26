@@ -12,6 +12,8 @@ class StreamPlatform(models.Model):
 
 class WatchList(models.Model):
     """ Movie model """
+    platform = models.ForeignKey(
+        StreamPlatform, on_delete=models.CASCADE, related_name='watchlist')
     title = models.CharField(max_length=100)
     storyline = models.TextField(max_length=200)
     active = models.BooleanField(default=True)
