@@ -26,6 +26,37 @@ class StreamPlatformListAPIView(APIView):
             return Response(serialize.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class StreamPlatformDetailAPIView(APIView):
+
+    def get(self, request, pk):
+        try:
+            platform = StreamPlatform.objects.get(pk=pk)
+        except StreamPlatform.DoesNotExist:
+            return Response({'error': 'Not found'}, status=status.HTTP_204_NO_CONTENT)
+
+        serialize = StreamPlatformSerializer(platform)
+        return Response(serialize.data)
+
+    def put(self, request, pk):
+        platform = StreamPlatform.objects.get(pk=pk)
+        serialize = MovieSerializer(platform, data=request.data)
+        if serialize.is_valid():
+            serialize.save()
+            return Response(serialize.data)
+        else:
+            return Response(serialize.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def delete(self, request, pk):
+        try:
+            platform = StreamPlatform.objects.get(pk=pk)
+        except StreamPlatform.DoesNotExist:
+            return Response(
+                {'error': 'StreamPlatform not found'}, status=status.HTTP_204_NO_CONTENT)
+
+        platform.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
 """ function base views """
 
 @api_view(['GET', 'POST'])
