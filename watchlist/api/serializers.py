@@ -47,7 +47,7 @@ class MovieModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = WatchList
         # fields = "__all__"
-        fields = ['id', 'title', 'storyline', 'len_name']
+        fields = ['id', 'title', 'storyline', 'len_name', 'platform']
         # exclude = ['active']
 
     def get_len_name(self, object):
