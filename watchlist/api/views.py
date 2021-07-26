@@ -14,7 +14,7 @@ class StreamPlatformListAPIView(APIView):
 
     def get(self, request):
         object_list = StreamPlatform.objects.all()
-        serialize = StreamPlatformSerializer(object_list, many=True, context={'request': request}) # request is for hyperlinked_related_field
+        serialize = StreamPlatformSerializer(object_list, many=True) # context={'request': request} is for hyperlinked_related_field
         return Response(serialize.data)
 
     def post(self, request):
