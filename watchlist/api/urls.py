@@ -6,13 +6,14 @@ from watchlist.api.views import (
 )
 
 urlpatterns = [
-    # stream platform
-    path('v2/stream/', StreamPlatformListAPIView.as_view(), name='stream-list'),
-    path('v2/stream/<int:pk>/', StreamPlatformDetailAPIView.as_view(), name='stream-detail'),
 
     # fbv
     path('v1/watchlist/', watch_list),
     path('v1/watchlist/<int:pk>/', watch_list_details),
+    
+    # stream platform
+    path('v2/stream/', StreamPlatformListAPIView.as_view(), name='stream-list'),
+    path('v2/stream/<int:pk>/', StreamPlatformDetailAPIView.as_view(), name='stream-detail'),
 
     # APIView
     path('v2/watchlist/', WatchListAPIView.as_view(), name='watch-list'),

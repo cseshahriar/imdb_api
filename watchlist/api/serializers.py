@@ -73,6 +73,11 @@ class StreamPlatformSerializer(serializers.ModelSerializer):
     """ StreamPlatform Serializer """
     # StreamPlatform has many watchlist, parent -> child list
     watchlist = MovieModelSerializer(many=True, read_only=True) # nested serializers
+    
+    # watchlist = serializers.StringRelatedField(many=True)
+    # watchlist = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    # watchlist = serializers.HyperlinkedRelatedField(
+    #     many=True, read_only=True, view_name='watch-detail')
 
     class Meta:
         model = StreamPlatform
