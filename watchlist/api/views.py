@@ -168,7 +168,7 @@ class WatchListDetalAPIView(APIView):
         watch_list.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-""" GenericAPIView """
+""" Generic mixins """
 class ReviewListCreateGenericsAPIView(
     mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
     queryset = Review.objects.all()
@@ -194,3 +194,13 @@ class ReviewDetailGenericsAPIView(
 
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
+
+""" generics cbv """
+class ReviewListGenerics(generics.ListCreateAPIView):
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
+
+
+class ReviewDetailGenerics(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
