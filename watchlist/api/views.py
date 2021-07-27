@@ -171,8 +171,13 @@ class WatchListDetalAPIView(APIView):
 """ Generic mixins """
 class ReviewListCreateGenericsAPIView(
     mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
-    queryset = Review.objects.all()
+    # queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+    
+    def get_queryset(self):
+        """ return reviews by watchlist """
+        pk = self.kwargs['pk']
+        return Review.objects.filter(watchlist=pk)
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
@@ -197,8 +202,13 @@ class ReviewDetailGenericsAPIView(
 
 """ generics Concrete View Classes """
 class ReviewListGenerics(generics.ListCreateAPIView):
-    queryset = Review.objects.all()
+    # queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+    
+    def get_queryset(self):
+        """ return reviews by watchlist """
+        pk = self.kwargs['pk']
+        return Review.objects.filter(watchlist=pk)
 
 
 class ReviewDetailGenerics(generics.RetrieveUpdateDestroyAPIView):

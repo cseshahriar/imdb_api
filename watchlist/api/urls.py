@@ -23,11 +23,11 @@ urlpatterns = [
     path('v2/watchlist/<int:pk>/', WatchListDetalAPIView.as_view(), name='watch-detail'),
 
     # generics mixins
-    path('v3/reviews/', ReviewListCreateGenericsAPIView.as_view(), name='review-list'),
+    path('v3/stream/<int:pk>/reviews/', ReviewListCreateGenericsAPIView.as_view(), name='review-list'),
     path('v3/reviews/<int:pk>', ReviewDetailGenericsAPIView.as_view(), name='review-detail'),
 
     # generics
-    path('v4/reviews/', ReviewListGenerics.as_view(), name='v4-review-list'),
-    path('v4/reviews/<int:pk>', ReviewDetailGenerics.as_view(), name='v4-review-detail'),
+    path('v4/stream/<int:pk>/reviews/', ReviewListGenerics.as_view(), name='v4-review-list'),
+    path('v4/stream/reviews/<int:pk>', ReviewDetailGenerics.as_view(), name='v4-review-detail'),
 
 ]
