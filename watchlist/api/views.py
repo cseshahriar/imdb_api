@@ -195,7 +195,7 @@ class ReviewDetailGenericsAPIView(
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
 
-""" generics cbv """
+""" generics Concrete View Classes """
 class ReviewListGenerics(generics.ListCreateAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
