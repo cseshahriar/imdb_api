@@ -47,7 +47,8 @@ class ReviewSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Review
-        fields = '__all__'
+        # fields = '__all__'
+        exclude = ('watchlist',)
 
 
 class MovieModelSerializer(serializers.ModelSerializer):

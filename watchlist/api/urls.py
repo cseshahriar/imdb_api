@@ -5,7 +5,7 @@ from watchlist.api.views import (
     WatchListAPIView, WatchListDetalAPIView,
     ReviewListCreateGenericsAPIView,
     ReviewDetailGenericsAPIView,
-    ReviewListGenerics, ReviewDetailGenerics
+    ReviewListGenerics, ReviewDetailGenerics, ReviewCreateGenerics
 )
 
 urlpatterns = [
@@ -24,10 +24,11 @@ urlpatterns = [
 
     # generics mixins
     path('v3/stream/<int:pk>/reviews/', ReviewListCreateGenericsAPIView.as_view(), name='review-list'),
-    path('v3/reviews/<int:pk>', ReviewDetailGenericsAPIView.as_view(), name='review-detail'),
+    path('v3/stream/reviews/<int:pk>', ReviewDetailGenericsAPIView.as_view(), name='review-detail'),
 
     # generics
     path('v4/stream/<int:pk>/reviews/', ReviewListGenerics.as_view(), name='v4-review-list'),
+    path('v4/stream/<int:pk>/reviews-create/', ReviewCreateGenerics.as_view(), name='v4-review-creae'),
     path('v4/stream/reviews/<int:pk>', ReviewDetailGenerics.as_view(), name='v4-review-detail'),
 
 ]
