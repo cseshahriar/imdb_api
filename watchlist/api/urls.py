@@ -2,7 +2,8 @@ from django.urls import path
 from watchlist.api.views import (
     StreamPlatformListAPIView, StreamPlatformDetailAPIView,
     watch_list, watch_list_details,
-    WatchListAPIView, WatchListDetalAPIView
+    WatchListAPIView, WatchListDetalAPIView,
+    ReviewListCreateGenericsAPIView
 )
 
 urlpatterns = [
@@ -18,4 +19,8 @@ urlpatterns = [
     # APIView
     path('v2/watchlist/', WatchListAPIView.as_view(), name='watch-list'),
     path('v2/watchlist/<int:pk>/', WatchListDetalAPIView.as_view(), name='watch-detail'),
+
+    # generics
+    path('v3/reviews/', ReviewListCreateGenericsAPIView.as_view(), name='review-list'),
+
 ]

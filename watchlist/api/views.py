@@ -4,9 +4,14 @@ from rest_framework.decorators import api_view
 
 from rest_framework.views import APIView
 
-from watchlist.models import WatchList, StreamPlatform
+from rest_framework import mixins
+from rest_framework import generics
+
+from watchlist.models import WatchList, StreamPlatform, Review
 from watchlist.api.serializers import (
-    MovieSerializer, MovieModelSerializer, StreamPlatformSerializer)
+    MovieSerializer, MovieModelSerializer, StreamPlatformSerializer,
+    ReviewSerializer
+)
 
 
 class StreamPlatformListAPIView(APIView):
@@ -162,3 +167,15 @@ class WatchListDetalAPIView(APIView):
 
         watch_list.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+""" GenericAPIView """
+class ReviewListCreateGenericsAPIView(
+    mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
