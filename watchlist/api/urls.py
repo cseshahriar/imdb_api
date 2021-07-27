@@ -3,7 +3,8 @@ from watchlist.api.views import (
     StreamPlatformListAPIView, StreamPlatformDetailAPIView,
     watch_list, watch_list_details,
     WatchListAPIView, WatchListDetalAPIView,
-    ReviewListCreateGenericsAPIView
+    ReviewListCreateGenericsAPIView,
+    ReviewDetailGenericsAPIView
 )
 
 urlpatterns = [
@@ -22,5 +23,6 @@ urlpatterns = [
 
     # generics
     path('v3/reviews/', ReviewListCreateGenericsAPIView.as_view(), name='review-list'),
+    path('v3/reviews/<int:pk>', ReviewDetailGenericsAPIView.as_view(), name='review-detail'),
 
 ]
