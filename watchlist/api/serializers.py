@@ -69,7 +69,7 @@ class MovieModelSerializer(serializers.ModelSerializer):
             return value
 
 
-class StreamPlatformSerializer(serializers.ModelSerializer):
+class StreamPlatformSerializer(serializers.HyperlinkedModelSerializer):
     """ StreamPlatform Serializer """
     # StreamPlatform has many watchlist, parent -> child list
     watchlist = MovieModelSerializer(many=True, read_only=True) # nested serializers
@@ -82,3 +82,6 @@ class StreamPlatformSerializer(serializers.ModelSerializer):
     class Meta:
         model = StreamPlatform
         fields = "__all__"
+        extra_kwargs = {
+            'url': {'view_name': 'stream-detail', 'lookup_field': 'pk'}
+        }
