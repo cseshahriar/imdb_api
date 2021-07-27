@@ -1,5 +1,6 @@
+from django.db.models import fields
 from rest_framework import serializers
-from watchlist.models import StreamPlatform, WatchList
+from watchlist.models import StreamPlatform, WatchList, Review
 
 """ serializers """
 def name_length(value):
@@ -41,13 +42,22 @@ class MovieSerializer(serializers.Serializer):
 
 
 """ Model serializers """
+class ReviewSerializer(serializers.ModelSerializer):
+    """ Review serializer """
+
+    class Meta:
+        model = Review
+        fields = '__all__'
+
+
 class MovieModelSerializer(serializers.ModelSerializer):
     len_name = serializers.SerializerMethodField()  # custom field 
+    reviews = ReviewSerializer(many=True, read_only=True)
 
     class Meta:
         model = WatchList
         # fields = "__all__"
-        fields = ['id', 'title', 'storyline', 'len_name', 'platform']
+        fields = ['id', 'title', 'storyline', 'len_name', 'platform', 'reviews']
         # exclude = ['active']
 
     def get_len_name(self, object):
