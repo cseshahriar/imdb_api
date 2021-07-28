@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
 from rest_framework.views import APIView
+from rest_framework.exceptions import ValidationError
 
 from rest_framework import mixins
 from rest_framework import generics
@@ -219,7 +220,13 @@ class ReviewCreateGenerics(generics.CreateAPIView):
     def perform_create(self, serializer):
         pk = self.kwargs['pk']
         watchlist = WatchList.objects.get(pk=pk)
-        serializer.save(watchlist=watchlist)
+        # check use already reviewed
+        user = self.request.user
+        review_query = Review.objects.filter(watchlist=watchlist, user=user)
+        if review_query.exists():
+            raise ValidationError("You have already reviewed this movie!")
+
+        serializer.save(watchlist=watchlist, user=user)
 
 class ReviewDetailGenerics(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
