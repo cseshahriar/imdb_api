@@ -9,11 +9,12 @@ from watchlist.api.views import (
     ReviewListCreateGenericsAPIView,
     ReviewDetailGenericsAPIView,
     ReviewListGenerics, ReviewDetailGenerics, ReviewCreateGenerics,
-    StreamPlatformViewset, 
+    StreamPlatformViewset, StreamPlatformModelViewset
 )
 
 router = DefaultRouter()
 router.register('v5/stream', StreamPlatformViewset, basename='viewset-steam')
+router.register('v6/stream', StreamPlatformModelViewset, basename='viewset-steam')
 
 
 urlpatterns = [

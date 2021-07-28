@@ -263,3 +263,8 @@ class StreamPlatformViewset(viewsets.ViewSet):
         stream = StreamPlatform.objects.get(pk=pk)
         stream.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+""" model viewsets """
+class StreamPlatformModelViewset(viewsets.ModelViewSet):
+    queryset = StreamPlatform.objects.all()
+    serializer_class = StreamPlatformSerializerV2
