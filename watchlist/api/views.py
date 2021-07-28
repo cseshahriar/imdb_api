@@ -7,10 +7,13 @@ from rest_framework.views import APIView
 from rest_framework import mixins
 from rest_framework import generics
 
+from rest_framework import viewsets
+from django.shortcuts import get_object_or_404
+
 from watchlist.models import WatchList, StreamPlatform, Review
 from watchlist.api.serializers import (
     MovieSerializer, MovieModelSerializer, StreamPlatformSerializer,
-    ReviewSerializer
+    ReviewSerializer, StreamPlatformSerializerV2
 )
 
 
@@ -221,3 +224,42 @@ class ReviewCreateGenerics(generics.CreateAPIView):
 class ReviewDetailGenerics(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+
+
+""" viewsets """
+class StreamPlatformViewset(viewsets.ViewSet):
+    """
+    A simple ViewSet for listing or retrieving users.
+    """
+    def list(self, request):
+        queryset = StreamPlatform.objects.all()
+        serializer = StreamPlatformSerializerV2(queryset, many=True)
+        return Response(serializer.data)
+
+    def retrieve(self, request, pk=None):
+        queryset = StreamPlatform.objects.all()
+        user = get_object_or_404(queryset, pk=pk)
+        serializer = StreamPlatformSerializerV2(user)
+        return Response(serializer.data)
+
+    def create(self, request):
+        serializer = StreamPlatformSerializerV2(request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors)
+
+    def update(self, request, pk):
+        stream = StreamPlatform.objects.get(pk=pk)
+        serialize = StreamPlatformSerializerV2(stream, data=request.data)
+        if serialize.is_valid():
+            serialize.save()
+            return Response(serialize.data)
+        else:
+            return Response(serialize.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def destroy(self, request, pk=None):
+        stream = StreamPlatform.objects.get(pk=pk)
+        stream.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

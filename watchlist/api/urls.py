@@ -1,12 +1,20 @@
-from django.urls import path
+from django.db import router
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+
 from watchlist.api.views import (
     StreamPlatformListAPIView, StreamPlatformDetailAPIView,
     watch_list, watch_list_details,
     WatchListAPIView, WatchListDetalAPIView,
     ReviewListCreateGenericsAPIView,
     ReviewDetailGenericsAPIView,
-    ReviewListGenerics, ReviewDetailGenerics, ReviewCreateGenerics
+    ReviewListGenerics, ReviewDetailGenerics, ReviewCreateGenerics,
+    StreamPlatformViewset, 
 )
+
+router = DefaultRouter()
+router.register('v5/stream', StreamPlatformViewset, basename='viewset-steam')
+
 
 urlpatterns = [
 
@@ -30,5 +38,8 @@ urlpatterns = [
     path('v4/stream/<int:pk>/reviews/', ReviewListGenerics.as_view(), name='v4-review-list'),
     path('v4/stream/<int:pk>/reviews-create/', ReviewCreateGenerics.as_view(), name='v4-review-creae'),
     path('v4/stream/reviews/<int:pk>', ReviewDetailGenerics.as_view(), name='v4-review-detail'),
+
+    # viewsets  
+    path('', include(router.urls)),
 
 ]
