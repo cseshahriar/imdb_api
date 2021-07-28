@@ -217,6 +217,9 @@ class ReviewListGenerics(generics.ListAPIView):
 class ReviewCreateGenerics(generics.CreateAPIView):
     serializer_class = ReviewSerializer
 
+    def get_queryset(self):
+        return Review.objects.all()
+
     def perform_create(self, serializer):
         pk = self.kwargs['pk']
         watchlist = WatchList.objects.get(pk=pk)
