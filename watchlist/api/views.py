@@ -11,6 +11,9 @@ from rest_framework import generics
 from rest_framework import viewsets
 from django.shortcuts import get_object_or_404
 
+from rest_framework import permissions
+from rest_framework.decorators import permission_classes
+
 from watchlist.models import WatchList, StreamPlatform, Review
 from watchlist.api.serializers import (
     MovieSerializer, MovieModelSerializer, StreamPlatformSerializer,
@@ -20,6 +23,8 @@ from watchlist.api.serializers import (
 
 class StreamPlatformListAPIView(APIView):
     """ StreamPlatform list and create api """
+
+    permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
         object_list = StreamPlatform.objects.all()
@@ -74,6 +79,7 @@ class StreamPlatformDetailAPIView(APIView):
 """ function base views """
 
 @api_view(['GET', 'POST'])
+@permission_classes([permissions.IsAuthenticated])
 def watch_list(request):
     """ movie list api """
     if request.method == 'GET':
