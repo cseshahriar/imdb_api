@@ -14,6 +14,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import permissions
 from rest_framework.decorators import permission_classes
 
+from watchlist.api.permissions import ReviewUserOrReadOnly
 from watchlist.models import WatchList, StreamPlatform, Review
 from watchlist.api.serializers import (
     MovieSerializer, MovieModelSerializer, StreamPlatformSerializer,
@@ -200,6 +201,7 @@ class ReviewDetailGenericsAPIView(
     mixins.DestroyModelMixin, generics.GenericAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+    permission_classes = [ReviewUserOrReadOnly]
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
