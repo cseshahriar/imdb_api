@@ -19,6 +19,8 @@ class WatchList(models.Model):
     title = models.CharField(max_length=100)
     storyline = models.TextField(max_length=200)
     active = models.BooleanField(default=True)
+    avg_rating = models.FloatField(default=0)
+    number_ratings = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
