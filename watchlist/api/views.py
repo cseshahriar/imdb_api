@@ -12,7 +12,9 @@ from rest_framework import viewsets
 from django.shortcuts import get_object_or_404
 
 from rest_framework import permissions
-from rest_framework.decorators import permission_classes
+from rest_framework.decorators import permission_classes, authentication_classes
+
+from rest_framework.authentication import BasicAuthentication
 
 from watchlist.api.permissions import ReviewUserOrReadOnly
 from watchlist.models import WatchList, StreamPlatform, Review
@@ -26,6 +28,7 @@ class StreamPlatformListAPIView(APIView):
     """ StreamPlatform list and create api """
 
     permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [BasicAuthentication]
 
     def get(self, request):
         object_list = StreamPlatform.objects.all()
@@ -81,6 +84,7 @@ class StreamPlatformDetailAPIView(APIView):
 
 @api_view(['GET', 'POST'])
 @permission_classes([permissions.IsAuthenticated])
+@authentication_classes([BasicAuthentication])
 def watch_list(request):
     """ movie list api """
     if request.method == 'GET':
@@ -236,6 +240,11 @@ class ReviewCreateGenerics(generics.CreateAPIView):
         review_query = Review.objects.filter(watchlist=watchlist, user=user)
         if review_query.exists():
             raise ValidationError("You have already reviewed this movie!")
+
+        if watchlist.number_ratings == 0:
+            watchlist.avg_rating = serializer.validated_data['rating']
+        else:
+            watchlist.avg_rating = (watchlist.avg_rating + serializer.validated_data['rating']) / 2;
 
         serializer.save(watchlist=watchlist, user=user)
 
