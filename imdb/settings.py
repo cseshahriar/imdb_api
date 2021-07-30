@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # third party apps
     'rest_framework',
     'rest_framework.authtoken',
+    'rest_framework_simplejwt',
 
     # local apps
     'watchlist',
@@ -135,6 +136,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # global settings
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
+        # 'rest_framework.authentication.TokenAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ]
 }
