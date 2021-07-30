@@ -14,7 +14,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import permissions
 from rest_framework.decorators import permission_classes, authentication_classes
 
-from rest_framework.authentication import BasicAuthentication
+from rest_framework.authentication import BasicAuthentication, TokenAuthentication
 
 from watchlist.api.permissions import ReviewUserOrReadOnly
 from watchlist.models import WatchList, StreamPlatform, Review
@@ -295,3 +295,5 @@ class StreamPlatformViewset(viewsets.ViewSet):
 class StreamPlatformModelViewset(viewsets.ModelViewSet):
     queryset = StreamPlatform.objects.all()
     serializer_class = StreamPlatformSerializerV2
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
