@@ -16,7 +16,7 @@ from rest_framework.decorators import permission_classes, authentication_classes
 
 from rest_framework.authentication import BasicAuthentication, TokenAuthentication
 
-from rest_framework.throttling import UserRateThrottle
+from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
 
 from watchlist.api.permissions import ReviewUserOrReadOnly
 from watchlist.models import WatchList, StreamPlatform, Review
@@ -296,7 +296,9 @@ class StreamPlatformViewset(viewsets.ViewSet):
 
 """ model viewsets """
 class StreamPlatformModelViewset(viewsets.ModelViewSet):
-    throttle_classes = [UserRateThrottle]
+    
+    throttle_classes = [UserRateThrottle, AnonRateThrottle]
+
     queryset = StreamPlatform.objects.all()
     serializer_class = StreamPlatformSerializerV2
     authentication_classes = [TokenAuthentication]
