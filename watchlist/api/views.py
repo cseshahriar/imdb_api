@@ -1,6 +1,6 @@
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, throttle_classes
 
 from rest_framework.views import APIView
 from rest_framework.exceptions import ValidationError
@@ -15,6 +15,8 @@ from rest_framework import permissions
 from rest_framework.decorators import permission_classes, authentication_classes
 
 from rest_framework.authentication import BasicAuthentication, TokenAuthentication
+
+from rest_framework.throttling import UserRateThrottle
 
 from watchlist.api.permissions import ReviewUserOrReadOnly
 from watchlist.models import WatchList, StreamPlatform, Review
@@ -104,6 +106,7 @@ def watch_list(request):
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
+@throttle_classes([UserRateThrottle])
 def watch_list_details(request, pk):
     """ Movie retrive, update, delete """
     try:
@@ -293,6 +296,7 @@ class StreamPlatformViewset(viewsets.ViewSet):
 
 """ model viewsets """
 class StreamPlatformModelViewset(viewsets.ModelViewSet):
+    throttle_classes = [UserRateThrottle]
     queryset = StreamPlatform.objects.all()
     serializer_class = StreamPlatformSerializerV2
     authentication_classes = [TokenAuthentication]
