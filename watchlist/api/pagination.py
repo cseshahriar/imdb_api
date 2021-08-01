@@ -4,10 +4,11 @@ from collections import OrderedDict
 
 
 class CustomPageNumberPagination(pagination.PageNumberPagination):
-    page_size = 2
+    page_size = 3
     page_query_param = 'p'
     page_size_query_param = 'size'
-    max_page_size = 50
+    max_page_size = 10
+    # last_page_strings = 'end'
 
 
 class CustomLimitOffsetPagination(pagination.LimitOffsetPagination):

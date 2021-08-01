@@ -23,6 +23,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 # from rest_framework import pagination
 from .pagination import CustomPageNumberPagination
+from rest_framework.renderers import JSONRenderer
 
 from watchlist.api.permissions import ReviewUserOrReadOnly
 from watchlist.models import WatchList, StreamPlatform, Review
@@ -324,3 +325,6 @@ class StreamPlatformModelViewset(viewsets.ModelViewSet):
 
     # PageNumberPagination
     pagination_class = CustomPageNumberPagination
+
+    # browsable
+    renderer_classes = [JSONRenderer]

@@ -149,6 +149,9 @@ REST_FRAMEWORK = {
         'user': '300/day',
         'review-create': '300/day',
     },
+     'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer', # browsable
+    )
     
 }
 
