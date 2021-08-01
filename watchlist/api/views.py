@@ -306,6 +306,11 @@ class StreamPlatformModelViewset(viewsets.ModelViewSet):
     serializer_class = StreamPlatformSerializerV2
     authentication_classes = [TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
-    # filters
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['name',]
+   
+    # DjangoFilterBackend
+    # filter_backends = [DjangoFilterBackend]
+    # filterset_fields = ['name',]
+
+    # SearchFilter
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['name',]
