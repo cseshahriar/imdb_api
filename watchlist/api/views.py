@@ -312,5 +312,9 @@ class StreamPlatformModelViewset(viewsets.ModelViewSet):
     # filterset_fields = ['name',]
 
     # SearchFilter
-    filter_backends = [filters.SearchFilter]
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['name',]
+
+    # OrderingFilter
+    ordering_fields = ['id', 'name',] # '__all__'
+    ordering = ['name'] # Specifying a default ordering
