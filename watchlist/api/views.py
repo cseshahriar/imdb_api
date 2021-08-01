@@ -21,6 +21,9 @@ from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
 from rest_framework import filters
 from django_filters.rest_framework import DjangoFilterBackend
 
+# from rest_framework import pagination
+from .pagination import CustomPageNumberPagination
+
 from watchlist.api.permissions import ReviewUserOrReadOnly
 from watchlist.models import WatchList, StreamPlatform, Review
 from watchlist.api.serializers import (
@@ -318,3 +321,6 @@ class StreamPlatformModelViewset(viewsets.ModelViewSet):
     # OrderingFilter
     ordering_fields = ['id', 'name',] # '__all__'
     ordering = ['name'] # Specifying a default ordering
+
+    # PageNumberPagination
+    pagination_class = CustomPageNumberPagination
