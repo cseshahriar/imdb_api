@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'rest_framework_simplejwt',
+    'django_filters',
 
     # local apps
     'watchlist',
@@ -144,10 +145,11 @@ REST_FRAMEWORK = {
     #     'rest_framework.throttling.UserRateThrottle'
     # ],
     'DEFAULT_THROTTLE_RATES': {
-        'anon': '1/day',
-        'user': '3/day',
-        'review-create': '3/day',
-    }
+        'anon': '100/day',
+        'user': '300/day',
+        'review-create': '300/day',
+    },
+    
 }
 
 

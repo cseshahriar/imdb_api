@@ -18,6 +18,9 @@ from rest_framework.authentication import BasicAuthentication, TokenAuthenticati
 
 from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
 
+from rest_framework import filters
+from django_filters.rest_framework import DjangoFilterBackend
+
 from watchlist.api.permissions import ReviewUserOrReadOnly
 from watchlist.models import WatchList, StreamPlatform, Review
 from watchlist.api.serializers import (
@@ -227,7 +230,7 @@ class ReviewListGenerics(generics.ListAPIView):
     def get_queryset(self):
         """ return reviews by watchlist """
         pk = self.kwargs['pk']
-        return Review.objects.filter(watchlist=pk)
+        return Review.objects.filter(watchlist=pk) # filter by watchlist
 
 class ReviewCreateGenerics(generics.CreateAPIView):
     serializer_class = ReviewSerializer
@@ -303,3 +306,6 @@ class StreamPlatformModelViewset(viewsets.ModelViewSet):
     serializer_class = StreamPlatformSerializerV2
     authentication_classes = [TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
+    # filters
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['name',]
